@@ -4,16 +4,26 @@ import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
 
-import samplesFishes from '../sample-fishes.js';
+import samplesFishes from '../sample-fishes';
 
 class App extends React.Component {
   constructor() {
     super();
+
+    this.addFish = this.addFish.bind(this);
+
     this.state = {
       fishes: {},
       order: {},
     };
   }
+
+  addFish = (fish) => {
+    const fishes = { ...this.state.fishes };
+    const timeStamp = Date.now();
+    fishes[`fish-${timeStamp}`] = fish;
+    this.setState({ fishes });
+  };
 
   render() {
     return (
@@ -29,7 +39,7 @@ class App extends React.Component {
           </ul>
         </div>
         <Order />
-        <Inventory />
+        <Inventory addFish={this.addFish} />
       </div>
     );
   }

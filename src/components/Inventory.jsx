@@ -1,10 +1,10 @@
 import React from 'react';
 import AddFishForm from './AddFishForm';
 
-const Inventory = () => (
+const Inventory = props => (
   <div>
     <p>Inventory</p>
-    <AddFishForm />
+    <AddFishForm addFish={props.addFish} />
   </div>
 );
 
