@@ -11,6 +11,7 @@ class App extends React.Component {
     super();
 
     this.addFish = this.addFish.bind(this);
+    this.loadSamples = this.loadSamples.bind(this);
 
     this.state = {
       fishes: {},
@@ -23,6 +24,12 @@ class App extends React.Component {
     const timeStamp = Date.now();
     fishes[`fish-${timeStamp}`] = fish;
     this.setState({ fishes });
+  };
+
+  loadSamples = () => {
+    this.setState({
+      fishes: samplesFishes,
+    });
   };
 
   render() {
@@ -39,7 +46,7 @@ class App extends React.Component {
           </ul>
         </div>
         <Order />
-        <Inventory addFish={this.addFish} />
+        <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
       </div>
     );
   }
