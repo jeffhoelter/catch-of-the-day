@@ -3,6 +3,7 @@ import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
 import Fishes from './Fishes';
+import base from '../base';
 
 import samplesFishes from '../sample-fishes';
 
@@ -11,6 +12,8 @@ class App extends React.Component {
     super();
 
     this.addFish = this.addFish.bind(this);
+    this.updateFish = this.updateFish.bind(this);
+    this.removeFish = this.removeFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
     // this.addToOrder = this.addToOrder.bind(this);
 
@@ -20,11 +23,48 @@ class App extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.ref = base.syncState(`${this.props.params.storeId}/fishes`, {
+      context: this,
+      state: 'fishes',
+    });
+
+    const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`);
+
+    if (localStorageRef) {
+      this.setState({
+        order: JSON.parse(localStorageRef),
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {}
+
   addFish = (fish) => {
     const fishes = { ...this.state.fishes };
     const timeStamp = Date.now();
     fishes[`fish-${timeStamp}`] = fish;
     this.setState({ fishes });
+  };
+
+  updateFish = (key, updatedFish) => {
+    const updatedFishes = { ...this.state.fishes };
+    updatedFishes[key] = updatedFish;
+    this.setState({ fishes: updatedFishes });
+  };
+
+  removeFish = (key) => {
+    const updatedFishes = { ...this.state.fishes };
+    updatedFishes[key] = null;
+    this.setState({ fishes: updatedFishes });
   };
 
   loadSamples = () => {
@@ -39,6 +79,12 @@ class App extends React.Component {
     this.setState({ order });
   };
 
+  removeFromOrder = (key) => {
+    const order = { ...this.state.order };
+    delete order[key];
+    this.setState({ order });
+  };
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -46,9 +92,15 @@ class App extends React.Component {
           <Header tagline="Fresh Produce Market" age="5000" setMe />
           <Fishes fishes={this.state.fishes} addToOrder={this.addToOrder} />
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order
+          fishes={this.state.fishes}
+          order={this.state.order}
+          removeFromOrder={this.removeFromOrder}
+        />
         <Inventory
           addFish={this.addFish}
+          updateFish={this.updateFish}
+          removeFish={this.removeFish}
           loadSamples={this.loadSamples}
           fishes={this.state.fishes}
         />
