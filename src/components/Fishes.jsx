@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Fish from './Fish';
 
 const Fishes = props => (
@@ -8,5 +9,10 @@ const Fishes = props => (
     ))}
   </ul>
 );
+
+Fishes.propTypes = {
+  addToOrder: PropTypes.func.isRequired,
+  fishes: PropTypes.object.isRequired,
+};
 
 export default Fishes;

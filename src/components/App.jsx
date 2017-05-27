@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
@@ -38,15 +40,13 @@ class App extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    base.removeBinding(this.ref);
-  }
-
   componentWillUpdate(nextProps, nextState) {
     localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {}
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
+  }
 
   addFish = (fish) => {
     const fishes = { ...this.state.fishes };
@@ -108,4 +108,10 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  params: PropTypes.shape({
+    storeId: PropTypes.string.isRequired,
+  }).isRequired,
+};
 export default App;

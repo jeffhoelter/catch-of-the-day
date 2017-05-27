@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { formatPrice } from '../helpers';
 
 const getOrderButtonText = isAvailable => (isAvailable ? 'Add To Order' : 'Sold Out');
@@ -17,5 +18,11 @@ const Fish = ({ details, addToOrder, index }) => (
     </button>
   </li>
 );
+
+Fish.propTypes = {
+  addToOrder: PropTypes.func.isRequired,
+  details: PropTypes.object.isRequired,
+  index: PropTypes.string.isRequired,
+};
 
 export default Fish;
