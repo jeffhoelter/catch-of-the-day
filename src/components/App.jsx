@@ -5,31 +5,21 @@ import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
 import Fishes from './Fishes';
-import base from '../base';
+// import base from '../base';
 
 import samplesFishes from '../sample-fishes';
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.addFish = this.addFish.bind(this);
-    this.updateFish = this.updateFish.bind(this);
-    this.removeFish = this.removeFish.bind(this);
-    this.loadSamples = this.loadSamples.bind(this);
-    // this.addToOrder = this.addToOrder.bind(this);
-
-    this.state = {
-      fishes: {},
-      order: {},
-    };
-  }
+  state = {
+    fishes: {},
+    order: {},
+  };
 
   componentWillMount() {
-    this.ref = base.syncState(`${this.props.params.storeId}/fishes`, {
-      context: this,
-      state: 'fishes',
-    });
+    // this.ref = base.syncState(`${this.props.params.storeId}/fishes`, {
+    //   context: this,
+    //   state: 'fishes',
+    // });
 
     const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`);
 
@@ -45,7 +35,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    base.removeBinding(this.ref);
+    // base.removeBinding(this.ref);
   }
 
   addFish = (fish) => {
@@ -63,7 +53,7 @@ class App extends React.Component {
 
   removeFish = (key) => {
     const updatedFishes = { ...this.state.fishes };
-    updatedFishes[key] = null;
+    delete updatedFishes[key];
     this.setState({ fishes: updatedFishes });
   };
 

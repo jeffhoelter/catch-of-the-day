@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 class AddFishForm extends React.Component {
   createFish = (event) => {
     event.preventDefault();
+    console.log(this.select.value);
     const fish = {
       name: this.name.value,
       price: this.price.value,
-      select: this.select.value,
+      status: this.select.value,
       desc: this.desc.value,
       image: this.image.value,
     };

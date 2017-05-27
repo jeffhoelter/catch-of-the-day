@@ -4,12 +4,6 @@ import AddFishForm from './AddFishForm';
 import { formatPrice } from '../helpers';
 
 class Inventory extends React.Component {
-  constructor() {
-    super();
-    this.renderInventory = this.renderInventory.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
   handleChange = (event, key) => {
     const fish = this.props.fishes[key];
     const updatedFish = { ...fish, [event.target.name]: event.target.value };
